@@ -41,7 +41,7 @@ npm run dev
 ```
 
 
-The application will be accessible at `http://localhost:4321`.
+The application will be accessible at `http://localhost:4321/portfolio`.
 
 ## Build and Deployment
 
