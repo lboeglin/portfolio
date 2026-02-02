@@ -1,5 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
 import { getCollection } from 'astro:content';
 
 const lang = "fr";
@@ -22,19 +23,7 @@ const personal = sortedProjects.filter(p => p.data.category === 'personal');
 
 <MainLayout lang={lang}>
   
-  <section id="intro" class="mb-20 pt-10">
-    <div class="hero bg-base-200 rounded-box p-8">
-      <div class="hero-content flex-col lg:flex-row-reverse">
-        <div class="text-center lg:text-left">
-          <h1 class="text-5xl font-bold">Bonjour !</h1>
-          <p class="py-6 text-xl">
-            Je suis étudiant en BUT 3 Informatique. Je construis ce portfolio pour présenter mes compétences en architecture logicielle et développement fullstack aux écoles d'ingénieurs.
-          </p>
-          <a href="#projects" class="btn btn-primary">Voir mes projets</a>
-        </div>
-      </div>
-    </div>
-  </section>
+  <Hero lang={lang} />
 
   <div class="flex flex-col gap-16">
     
