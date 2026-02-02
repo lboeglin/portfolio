@@ -1,6 +1,7 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
-import Hero from '../components/Hero.astro';
+import MainLayout from '@layouts/MainLayout.astro';
+import Hero from '@components/Hero.astro';
+import ExperienceTimeline from '@components/ExperienceTimeline.astro';
 import { getCollection } from 'astro:content';
 
 const lang = "fr";
@@ -10,6 +11,16 @@ const allProjects = await getCollection('projects', ({ id }) => {
   return id.startsWith(`${lang}/`);
 });
 
+const experiences = await getCollection('experiences', ({ id }) =>
+  id.startsWith(`${lang}/`)
+);
+
+const sortedExperiences = experiences.sort(
+  (a, b) =>
+    new Date(b.data.startDate).getTime() -
+    new Date(a.data.startDate).getTime()
+);
+
 // 2. Sort by Date
 const sortedProjects = allProjects.sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
@@ -17,7 +28,6 @@ const sortedProjects = allProjects.sort(
 
 // 3. Group by Category
 const academic = sortedProjects.filter(p => p.data.category === 'academic');
-const professional = sortedProjects.filter(p => p.data.category === 'professional');
 const personal = sortedProjects.filter(p => p.data.category === 'personal');
 ---
 
@@ -27,11 +37,7 @@ const personal = sortedProjects.filter(p => p.data.category === 'personal');
 
   <div class="flex flex-col gap-16">
     
-    {professional.length > 0 && (
-      <section id="professional">
-        <h2 class="text-3xl font-bold mb-6 border-b pb-2">Expériences Professionnelles</h2>
-        </section>
-    )}
+    <ExperienceTimeline experiences={sortedExperiences} />
 
     <section id="academic">
       <h2 class="text-3xl font-bold mb-8 border-b border-base-300 pb-2 flex items-center gap-2">

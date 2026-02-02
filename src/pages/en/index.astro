@@ -1,6 +1,7 @@
 ---
-import MainLayout from '../../layouts/MainLayout.astro';
-import Hero from '../../components/Hero.astro';
+import MainLayout from '@layouts/MainLayout.astro';
+import Hero from '@components/Hero.astro';
+import ExperienceTimeline from '@components/ExperienceTimeline.astro';
 import { getCollection } from 'astro:content';
 
 const lang = "en";
@@ -10,6 +11,16 @@ const allProjects = await getCollection('projects', ({ id }) => {
   return id.startsWith(`${lang}/`);
 });
 
+const experiences = await getCollection('experiences', ({ id }) =>
+  id.startsWith(`${lang}/`)
+);
+
+const sortedExperiences = experiences.sort(
+  (a, b) =>
+    new Date(b.data.startDate).getTime() -
+    new Date(a.data.startDate).getTime()
+);
+
 // 2. Sort by Date
 const sortedProjects = allProjects.sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
@@ -17,7 +28,6 @@ const sortedProjects = allProjects.sort(
 
 // 3. Group by Category
 const academic = sortedProjects.filter(p => p.data.category === 'academic');
-const professional = sortedProjects.filter(p => p.data.category === 'professional');
 const personal = sortedProjects.filter(p => p.data.category === 'personal');
 ---
 
@@ -27,12 +37,8 @@ const personal = sortedProjects.filter(p => p.data.category === 'personal');
 
   <div class="flex flex-col gap-16">
     
-    {professional.length > 0 && (
-      <section id="professional">
-        <h2 class="text-3xl font-bold mb-6 border-b pb-2">Expériences Professionnelles</h2>
-        </section>
-    )}
-
+    <ExperienceTimeline experiences={experiences} lang={lang} />
+    
     <section id="academic">
       <h2 class="text-3xl font-bold mb-8 border-b border-base-300 pb-2 flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
