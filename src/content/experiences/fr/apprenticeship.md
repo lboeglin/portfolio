@@ -1,8 +1,8 @@
 ---
-title: "Apprenti Ingénieur Logiciel"
-company: "Company Name"
-type: "Apprenticeship"
-startDate: "2025-09"
+title: 'Apprenti Ingénieur Logiciel'
+company: 'Company Name'
+type: 'Apprenticeship'
+startDate: '2025-09'
 stack:
   - Java
   - Spring Boot

@@ -11,18 +11,18 @@ const { experiences, lang = 'fr' } = Astro.props as {
 // Translation labels
 const labels = {
   fr: {
-    section: "Expériences Professionnelles",
-    present: "Présent",
-    repo: "Dépôt de code",
-    report: "Rapport de stage",
-    locale: "fr-FR",
+    section: 'Expériences Professionnelles',
+    present: 'Présent',
+    repo: 'Dépôt de code',
+    report: 'Rapport de stage',
+    locale: 'fr-FR',
   },
   en: {
-    section: "Professional Experiences",
-    present: "Present",
-    repo: "Code repository",
-    report: "Internship report",
-    locale: "en-US",
+    section: 'Professional Experiences',
+    present: 'Present',
+    repo: 'Code repository',
+    report: 'Internship report',
+    locale: 'en-US',
   },
 } as const;
 
@@ -30,8 +30,8 @@ const t = labels[lang];
 
 function formatDate(dateStr?: string) {
   if (!dateStr) return t.present;
-  const date = new Date(dateStr + "-01");
-  return new Intl.DateTimeFormat(t.locale, { month: "short", year: "numeric" }).format(date);
+  const date = new Date(dateStr + '-01');
+  return new Intl.DateTimeFormat(t.locale, { month: 'short', year: 'numeric' }).format(date);
 }
 ---
 
@@ -39,53 +39,55 @@ function formatDate(dateStr?: string) {
   <h2 class="text-3xl font-bold mb-8 border-b pb-2">{t.section}</h2>
 
   <ol class="relative border-l border-base-300 pl-6 space-y-12">
-    {experiences.map(exp => (
-      <li>
-        <span class="absolute -left-2 w-4 h-4 bg-primary rounded-full"></span>
+    {
+      experiences.map((exp) => (
+        <li>
+          <span class="absolute -left-2 w-4 h-4 bg-primary rounded-full" />
 
-        <div class="flex flex-col gap-2">
-          <div class="flex flex-wrap items-baseline gap-2">
-            <h3 class="text-xl font-bold">{exp.data.title}</h3>
-            <span class="opacity-70">@ {exp.data.company}</span>
-          </div>
-
-          <div class="text-sm opacity-60">
-            {formatDate(exp.data.startDate)} — {formatDate(exp.data.endDate)} · {exp.data.type}
-          </div>
-
-          {/* Render highlights if available, otherwise fallback to Markdown body */}
-          {exp.data.highlights?.length ? (
-            <ul class="list-disc list-inside prose max-w-none">
-              {exp.data.highlights.map((point: string) => (
-                <li>{point}</li>
-              ))}
-            </ul>
-          ) : (
-            <div class="prose max-w-none">{exp.body}</div>
-          )}
-
-          <div class="flex flex-wrap gap-2 pt-2">
-            {exp.data.stack.map((tech: string) => (
-              <span class="badge badge-outline badge-sm">{tech}</span>
-            ))}
-          </div>
-
-          {(exp.data.repo || exp.data.report) && (
-            <div class="text-sm opacity-70 flex gap-4 mt-2">
-              {exp.data.repo && (
-                <a href={exp.data.repo} target="_blank" rel="noopener">
-                  {t.repo}
-                </a>
-              )}
-              {exp.data.report && (
-                <a href={exp.data.report} target="_blank">
-                  {t.report}
-                </a>
-              )}
+          <div class="flex flex-col gap-2">
+            <div class="flex flex-wrap items-baseline gap-2">
+              <h3 class="text-xl font-bold">{exp.data.title}</h3>
+              <span class="opacity-70">@ {exp.data.company}</span>
             </div>
-          )}
-        </div>
-      </li>
-    ))}
+
+            <div class="text-sm opacity-60">
+              {formatDate(exp.data.startDate)} — {formatDate(exp.data.endDate)} · {exp.data.type}
+            </div>
+
+            {/* Render highlights if available, otherwise fallback to Markdown body */}
+            {exp.data.highlights?.length ? (
+              <ul class="list-disc list-inside prose max-w-none">
+                {exp.data.highlights.map((point: string) => (
+                  <li>{point}</li>
+                ))}
+              </ul>
+            ) : (
+              <div class="prose max-w-none">{exp.body}</div>
+            )}
+
+            <div class="flex flex-wrap gap-2 pt-2">
+              {exp.data.stack.map((tech: string) => (
+                <span class="badge badge-outline badge-sm">{tech}</span>
+              ))}
+            </div>
+
+            {(exp.data.repo || exp.data.report) && (
+              <div class="text-sm opacity-70 flex gap-4 mt-2">
+                {exp.data.repo && (
+                  <a href={exp.data.repo} target="_blank" rel="noopener">
+                    {t.repo}
+                  </a>
+                )}
+                {exp.data.report && (
+                  <a href={exp.data.report} target="_blank">
+                    {t.report}
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        </li>
+      ))
+    }
   </ol>
 </section>

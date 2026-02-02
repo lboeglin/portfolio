@@ -1,21 +1,20 @@
 ---
-type Lang = "fr" | "en";
-const { lang = "fr" } = Astro.props as { lang?: Lang };
-
+type Lang = 'fr' | 'en';
+const { lang = 'fr' } = Astro.props as { lang?: Lang };
 
 const content = {
   fr: {
-    title: "Bonjour !",
+    title: 'Bonjour !',
     text: "Je suis étudiant en BUT 3 Informatique. Je construis ce portfolio pour présenter mes compétences en architecture logicielle et développement fullstack aux écoles d'ingénieurs.",
-    button: "Voir mes projets",
-    imageAlt: "Avatar de Lohan"
+    button: 'Voir mes projets',
+    imageAlt: 'Avatar de Lohan',
   },
   en: {
-    title: "Hello!",
-    text: "I am a 3rd-year CS student. I built this portfolio to showcase my software architecture and fullstack development skills to engineering schools.",
-    button: "See my projects",
-    imageAlt: "Lohan's Avatar"
-  }
+    title: 'Hello!',
+    text: 'I am a 3rd-year CS student. I built this portfolio to showcase my software architecture and fullstack development skills to engineering schools.',
+    button: 'See my projects',
+    imageAlt: "Lohan's Avatar",
+  },
 } as const;
 
 const t = content[lang];
@@ -24,7 +23,6 @@ const t = content[lang];
 <section id="intro" class="mb-20 pt-10">
   <div class="hero bg-base-200 rounded-box p-8">
     <div class="hero-content flex-col lg:flex-row-reverse gap-8">
-      
       <div class="text-center lg:text-left">
         <h1 class="text-5xl font-bold">{t.title}</h1>
         <p class="py-6 text-xl max-w-2xl">

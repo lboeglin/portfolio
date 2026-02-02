@@ -1,10 +1,10 @@
 ---
-title: "Software Developer Intern"
-company: "Kadran"
-type: "Internship"
-startDate: "2025-04"
-endDate: "2025-06"
-repo: "https://github.com/lboeglin/PointCloudViewer"
+title: 'Software Developer Intern'
+company: 'Kadran'
+type: 'Internship'
+startDate: '2025-04'
+endDate: '2025-06'
+repo: 'https://github.com/lboeglin/PointCloudViewer'
 stack:
   - C++
   - C#
@@ -12,7 +12,7 @@ stack:
   - DLL interop
   - 3D Point Cloud Visualization
   - LiDAR
-report: "/reports/internship-report.pdf"
+report: '/reports/internship-report.pdf'
 highlights:
   - Evaluated feasibility of a 3D LiDAR point cloud viewer using Unreal Engine
   - Developed a functional prototype for loading, displaying, and interacting with point clouds in real time

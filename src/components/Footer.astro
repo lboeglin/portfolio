@@ -1,43 +1,35 @@
 ---
 const today = new Date();
-const { lang = "fr" } = Astro.props;
+const { lang = 'fr' } = Astro.props;
 
 const t = {
-  fr: { 
-    role: "Étudiant BUT 3 Informatique",
-    rights: "Tous droits réservés",
-    contact: "Me contacter" 
+  fr: {
+    role: 'Étudiant BUT 3 Informatique',
+    rights: 'Tous droits réservés',
+    contact: 'Me contacter',
   },
-  en: { 
+  en: {
     role: "CS Student (Bachelor's Year 3)",
-    rights: "All rights reserved",
-    contact: "Contact me"
-  }
+    rights: 'All rights reserved',
+    contact: 'Contact me',
+  },
 };
 
 const text = lang === 'fr' ? t.fr : t.en;
 ---
 
-<footer id="contact" class="footer footer-center p-10 bg-base-200 text-base-content rounded mt-auto">
-  
+<footer
+  id="contact"
+  class="footer footer-center p-10 bg-base-200 text-base-content rounded mt-auto"
+>
   <div>
     <p class="font-bold text-lg">
-      Lohan Boëglin
-      <br/>
+      <a href="mailto:lohan.boeglin@gmail.com" class="link link-hover"> lohan.boeglin@gmail.com </a>
+      <br />
       <span class="font-normal opacity-70 text-sm">{text.role}</span>
-    </p> 
+    </p>
     <p class="text-xs opacity-50">
       Copyright © {today.getFullYear()} - {text.rights}
     </p>
-  </div> 
-
-  <div class="mt-2">
-    <span class="text-xs font-bold opacity-50 uppercase tracking-widest">
-      {text.contact}
-    </span>
-    <a href="mailto:lohan.boeglin@gmail.com" class="link link-hover text-xl font-medium">
-      lohan.boeglin@gmail.com
-    </a>
   </div>
-
 </footer>

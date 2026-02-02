@@ -1,8 +1,8 @@
 ---
-title: "Software Engineering Apprentice"
-company: "Company Name"
-type: "Apprenticeship"
-startDate: "2025-09"
+title: 'Software Engineering Apprentice'
+company: 'Company Name'
+type: 'Apprenticeship'
+startDate: '2025-09'
 stack:
   - Java
   - Spring Boot
