@@ -1,6 +1,7 @@
 ---
-title: 'Software Developer Intern'
+title: 'Software Developer'
 company: 'Kadran'
+companyUrl: 'https://kadran-ingenierie.fr/'
 type: 'Internship'
 startDate: '2025-04'
 endDate: '2025-06'

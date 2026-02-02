@@ -19,6 +19,7 @@ const experiences = defineCollection({
   schema: z.object({
     title: z.string(),
     company: z.string(),
+    companyUrl: z.string().url().optional(),
     type: z.enum(['Internship', 'Apprenticeship']),
     startDate: z.string(),
     endDate: z.string().optional(),

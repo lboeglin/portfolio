@@ -26,6 +26,17 @@ const labels = {
   },
 } as const;
 
+const typeLabels = {
+  fr: {
+    Internship: 'Stage',
+    Apprenticeship: 'Alternance',
+  },
+  en: {
+    Internship: 'Internship',
+    Apprenticeship: 'Apprenticeship',
+  },
+} as const;
+
 const t = labels[lang];
 
 function formatDate(dateStr?: string) {
@@ -47,11 +58,21 @@ function formatDate(dateStr?: string) {
           <div class="flex flex-col gap-2">
             <div class="flex flex-wrap items-baseline gap-2">
               <h3 class="text-xl font-bold">{exp.data.title}</h3>
-              <span class="opacity-70">@ {exp.data.company}</span>
+              <span class="opacity-70">
+                @{' '}
+                {exp.data.companyUrl ? (
+                  <a href={exp.data.companyUrl} target="_blank" rel="noopener">
+                    {exp.data.company}
+                  </a>
+                ) : (
+                  exp.data.company
+                )}
+              </span>
             </div>
 
             <div class="text-sm opacity-60">
-              {formatDate(exp.data.startDate)} — {formatDate(exp.data.endDate)} · {exp.data.type}
+              {formatDate(exp.data.startDate)} — {formatDate(exp.data.endDate)} ·{' '}
+              {typeLabels[lang][exp.data.type]}
             </div>
 
             {/* Render highlights if available, otherwise fallback to Markdown body */}
