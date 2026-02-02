@@ -1,16 +1,23 @@
 ---
-title: 'Apprenti Ingénieur Logiciel'
-company: 'Company Name'
+title: 'Développeur Fullstack'
+company: 'CIBTP France'
+companyUrl: 'https://www.cibtp.fr/'
 type: 'Apprenticeship'
 startDate: '2025-09'
 stack:
-  - Java
-  - Spring Boot
-  - PostgreSQL
-  - Docker
+  - TypeScript
+  - Angular
+  - SCSS
+  - C#
+  - .NET
+  - Entity Framework
+  - Microsoft SQL
+  - SCRUM
+highlights:
+  - Développement d’applications web fullstack avec Angular et .NET
+  - Implémentation de solutions de base de données avec Microsoft SQL et Entity Framework
+  - Participation aux cérémonies SCRUM et au workflow agile
+  - Collaboration avec les développeurs seniors sur la conception et la mise en œuvre des fonctionnalités
 ---
 
-- Conception et développement de services backend
-- Participation aux choix d’architecture logicielle
-- Travail en environnement Agile
-- Mise en place de tests automatisés
+Cette alternance offre une expérience pratique en développement fullstack, gestion de bases de données et ingénierie logicielle agile dans un environnement professionnel.
