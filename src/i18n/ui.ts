@@ -12,6 +12,7 @@ export const ui = {
     'nav.cv': 'CV',
     'nav.contact': 'Contact',
     'sidebar.status': 'BUT 3 Informatique',
+    'sidebar.specialization': 'Ingénierie Logicielle',
     'role.description': 'Étudiant ingénieur logiciel',
     'experiences.section': 'Expériences Professionnelles',
     'experiences.present': 'Présent',
@@ -44,6 +45,7 @@ export const ui = {
     'footer.rights': 'All rights reserved',
     'footer.contact': 'Contact me',
     'sidebar.status': 'CS Student (Bachelor 3)',
+    'sidebar.specialization': 'Software Engineering',
     'hero.title': 'Hello!',
     'hero.text':
       'I am a 3rd-year CS student. I built this portfolio to showcase my software architecture and fullstack development skills to engineering schools.',
