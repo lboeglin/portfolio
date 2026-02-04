@@ -28,16 +28,19 @@ const title = t('nav.projects');
     <div role="tablist" class="tabs tabs-boxed mb-10 w-fit bg-base-200/50 p-1 gap-1">
       <button
         role="tab"
+        data-tab="all"
         class="tab tab-active transition-all duration-300 data-[active=true]:bg-primary data-[active=true]:text-primary-content rounded-lg"
         onclick="setCategory('all', this)">{t('projects.filter.all')}</button
       >
       <button
         role="tab"
+        data-tab="personal"
         class="tab transition-all duration-300 data-[active=true]:bg-primary data-[active=true]:text-primary-content rounded-lg"
         onclick="setCategory('personal', this)">{t('projects.filter.personal')}</button
       >
       <button
         role="tab"
+        data-tab="academic"
         class="tab transition-all duration-300 data-[active=true]:bg-primary data-[active=true]:text-primary-content rounded-lg"
         onclick="setCategory('academic', this)">{t('projects.filter.academic')}</button
       >
@@ -66,27 +69,47 @@ const title = t('nav.projects');
 </Layout>
 
 <script is:inline>
+  // Configuration
   let currentCategory = 'all';
   let itemsToShow = 6;
   const itemsIncrement = 6;
 
+  // Runs on initial load AND after View Transitions (language switch)
   document.addEventListener('astro:page-load', () => {
-    currentCategory = 'all';
+    // 1. Recover state from localStorage (default to 'all' if empty)
+    currentCategory = localStorage.getItem('selectedCategory') || 'all';
     itemsToShow = 6;
+
+    // 2. Update the UI Tabs to match the recovered category
+    updateActiveTab(currentCategory);
+
+    // 3. Render
     renderProjects();
   });
 
-  function setCategory(category, btn) {
+  function updateActiveTab(category) {
+    // Reset all tabs
     document.querySelectorAll('[role="tab"]').forEach((el) => {
       el.classList.remove('tab-active', 'bg-primary', 'text-primary-content');
       el.removeAttribute('data-active');
     });
-    btn.classList.add('tab-active', 'bg-primary', 'text-primary-content');
-    btn.setAttribute('data-active', 'true');
+
+    // Find the correct tab using the data attribute and activate it
+    const activeBtn = document.querySelector(`[data-tab="${category}"]`);
+    if (activeBtn) {
+      activeBtn.classList.add('tab-active', 'bg-primary', 'text-primary-content');
+      activeBtn.setAttribute('data-active', 'true');
+    }
+  }
+
+  function setCategory(category, btn) {
+    // Save to storage
+    localStorage.setItem('selectedCategory', category);
 
     currentCategory = category;
-    itemsToShow = itemsIncrement;
+    itemsToShow = itemsIncrement; // Reset pagination when switching tabs
 
+    updateActiveTab(category);
     renderProjects();
   }
 
@@ -111,7 +134,9 @@ const title = t('nav.projects');
         matchCount++;
         if (visibleCount < itemsToShow) {
           item.classList.remove('hidden');
-          if (item.style.display === 'none') {
+          // Only animate if it was previously hidden
+          if (item.style.display === 'none' || item.classList.contains('hidden')) {
+            // Simple fade in
             item.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300 });
           }
           visibleCount++;
