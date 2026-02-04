@@ -58,7 +58,6 @@ const projectUrl = getRelativeLocaleUrl(currentLang, `projects/${cleanSlug}`);
       <span
         class="badge badge-sm backdrop-blur-md bg-base-100/80 border-0 shadow-sm capitalize font-bold"
       >
-        {/* 3. USE TRANSLATION HERE */}
         {t(`projects.filter.${project.data.category}` as any)}
       </span>
     </div>
@@ -79,7 +78,7 @@ const projectUrl = getRelativeLocaleUrl(currentLang, `projects/${cleanSlug}`);
       {
         project.data.tags
           .slice(0, 3)
-          .map((tag) => <span class="badge badge-outline badge-xs opacity-70">#{tag}</span>)
+          .map((tag) => <span class="badge badge-outline badge-xs opacity-70">{tag}</span>)
       }
       {
         project.data.tags.length > 3 && (

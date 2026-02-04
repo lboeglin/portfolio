@@ -48,8 +48,11 @@ const title = t('nav.projects');
 
     <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
       {
-        sortedProjects.map((project) => (
-          <div class="project-item hidden" data-category={project.data.category}>
+        sortedProjects.map((project, index) => (
+          <div
+            class={`project-item ${index >= 6 ? 'hidden' : ''}`}
+            data-category={project.data.category}
+          >
             <ProjectCard project={project} />
           </div>
         ))
