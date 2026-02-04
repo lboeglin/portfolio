@@ -36,6 +36,7 @@ export const ui = {
     'projects.stack': 'Stack Technique',
     'projects.demo': 'Démo Live',
     'projects.github': 'Code Source',
+    'projects.loadMore': 'Charger plus',
   },
   en: {
     'nav.home': 'Home',
@@ -67,6 +68,7 @@ export const ui = {
     'projects.stack': 'Tech Stack',
     'projects.demo': 'Live Demo',
     'projects.github': 'Source Code',
+    'projects.loadMore': 'Load more',
   },
 } as const;
 

@@ -29,30 +29,24 @@ const title = t('nav.projects');
       <button
         role="tab"
         class="tab tab-active transition-all duration-300 data-[active=true]:bg-primary data-[active=true]:text-primary-content rounded-lg"
-        onclick="filterProjects('all', this)"
+        onclick="setCategory('all', this)">{t('projects.filter.all')}</button
       >
-        {t('projects.filter.all')}
-      </button>
       <button
         role="tab"
         class="tab transition-all duration-300 data-[active=true]:bg-primary data-[active=true]:text-primary-content rounded-lg"
-        onclick="filterProjects('personal', this)"
+        onclick="setCategory('personal', this)">{t('projects.filter.personal')}</button
       >
-        {t('projects.filter.personal')}
-      </button>
       <button
         role="tab"
         class="tab transition-all duration-300 data-[active=true]:bg-primary data-[active=true]:text-primary-content rounded-lg"
-        onclick="filterProjects('academic', this)"
+        onclick="setCategory('academic', this)">{t('projects.filter.academic')}</button
       >
-        {t('projects.filter.academic')}
-      </button>
     </div>
 
-    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
       {
         sortedProjects.map((project) => (
-          <div class="project-item" data-category={project.data.category}>
+          <div class="project-item hidden" data-category={project.data.category}>
             <ProjectCard project={project} />
           </div>
         ))
@@ -62,11 +56,27 @@ const title = t('nav.projects');
     <div id="no-projects" class="hidden py-20 text-center opacity-50">
       <p class="text-xl">{t('projects.empty')}</p>
     </div>
+
+    <div class="flex justify-center">
+      <button id="load-more-btn" class="btn btn-outline min-w-50 hidden" onclick="loadMore()">
+        {t('projects.loadMore')}
+      </button>
+    </div>
   </section>
 </Layout>
 
 <script is:inline>
-  function filterProjects(category, btn) {
+  let currentCategory = 'all';
+  let itemsToShow = 6;
+  const itemsIncrement = 6;
+
+  document.addEventListener('astro:page-load', () => {
+    currentCategory = 'all';
+    itemsToShow = 6;
+    renderProjects();
+  });
+
+  function setCategory(category, btn) {
     document.querySelectorAll('[role="tab"]').forEach((el) => {
       el.classList.remove('tab-active', 'bg-primary', 'text-primary-content');
       el.removeAttribute('data-active');
@@ -74,31 +84,55 @@ const title = t('nav.projects');
     btn.classList.add('tab-active', 'bg-primary', 'text-primary-content');
     btn.setAttribute('data-active', 'true');
 
-    const items = document.querySelectorAll('.project-item');
-    let visibleCount = 0;
+    currentCategory = category;
+    itemsToShow = itemsIncrement;
 
-    items.forEach((item) => {
+    renderProjects();
+  }
+
+  function loadMore() {
+    itemsToShow += itemsIncrement;
+    renderProjects();
+  }
+
+  function renderProjects() {
+    const allItems = document.querySelectorAll('.project-item');
+    const emptyState = document.getElementById('no-projects');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    let visibleCount = 0;
+    let matchCount = 0;
+
+    allItems.forEach((item) => {
       const itemCategory = item.getAttribute('data-category');
-      if (category === 'all' || itemCategory === category) {
-        item.style.display = 'block';
-        item.animate(
-          [
-            { opacity: 0, transform: 'scale(0.95)' },
-            { opacity: 1, transform: 'scale(1)' },
-          ],
-          { duration: 300, easing: 'ease-out' }
-        );
-        visibleCount++;
+      const isMatch = currentCategory === 'all' || itemCategory === currentCategory;
+
+      if (isMatch) {
+        matchCount++;
+        if (visibleCount < itemsToShow) {
+          item.classList.remove('hidden');
+          if (item.style.display === 'none') {
+            item.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 300 });
+          }
+          visibleCount++;
+        } else {
+          item.classList.add('hidden');
+        }
       } else {
-        item.style.display = 'none';
+        item.classList.add('hidden');
       }
     });
 
-    const emptyState = document.getElementById('no-projects');
-    if (visibleCount === 0) {
+    if (matchCount === 0) {
       emptyState.classList.remove('hidden');
     } else {
       emptyState.classList.add('hidden');
+    }
+
+    if (matchCount > itemsToShow) {
+      loadMoreBtn.classList.remove('hidden');
+    } else {
+      loadMoreBtn.classList.add('hidden');
     }
   }
 </script>

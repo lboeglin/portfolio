@@ -1,26 +1,44 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
 import Layout from '@layouts/MainLayout.astro';
 import { useTranslations } from '@i18n/utils';
 import { type Lang, defaultLang } from '@i18n/ui';
 
+// 1. Generate paths (Just the URL slugs, no data)
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
+
+  // We map all projects to their clean slugs.
+  // We allow duplicates here (e.g. 'personal-portfolio' appearing twice)
+  // because Astro dedupes them, or we can simply map and let Astro handle the routes.
   return projects.map((entry) => ({
-    params: { slug: entry.slug.replace(/^([a-z]{2})\//, '') },
-    props: { entry },
+    params: { slug: entry.slug.replace(/^[a-z]{2}\//, '') },
+    // CRITICAL: Do NOT pass 'props: { entry }' here.
+    // We will fetch the specific language version in the logic below.
   }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
-
+// 2. Get the current context
+const { slug } = Astro.params;
 const currentLang = (Astro.currentLocale || defaultLang) as Lang;
 const t = useTranslations(currentLang);
+
+// 3. Dynamic Fetch: Find the entry that matches CURRENT LANG + SLUG
+// Example: If URL is /en/..., we look for "en/personal-portfolio"
+const entry = await getEntry('projects', `${currentLang}/${slug}`);
+
+// 4. Handle 404 if the translation doesn't exist
+if (!entry) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await entry.render();
 ---
 
 <Layout title={`${entry.data.title} - Lohan Boëglin`}>
+  {/* The rest of your HTML remains exactly the same... */}
   <article class="max-w-4xl mx-auto animate-in fade-in duration-700">
+    {/* ... content ... */}
     <div class="mb-8">
       <a
         href={`/Portfolio/${currentLang}/projects`}
@@ -56,7 +74,7 @@ const t = useTranslations(currentLang);
           <img
             src={entry.data.image}
             alt={entry.data.title}
-            class="w-full object-cover max-h-125"
+            class="w-full object-cover max-h-[500px]"
             transition:name={`image-${entry.slug}`}
           />
         </div>

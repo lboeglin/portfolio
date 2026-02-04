@@ -10,8 +10,9 @@ interface Props {
 const { project } = Astro.props;
 const currentLang = (Astro.currentLocale || defaultLang) as Lang;
 
-// Create the link to the details page
-const projectUrl = getRelativeLocaleUrl(currentLang, `projects/${project.slug}`);
+const cleanSlug = project.slug.replace(/^[a-z]{2}\//, '');
+
+const projectUrl = getRelativeLocaleUrl(currentLang, `projects/${cleanSlug}`);
 ---
 
 <a
@@ -29,7 +30,6 @@ const projectUrl = getRelativeLocaleUrl(currentLang, `projects/${project.slug}`)
           class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
       ) : (
-        /* Fallback Pattern if no image */
         <div class="flex h-full w-full items-center justify-center bg-base-200 text-base-content/20">
           <svg
             xmlns="http://www.w3.org/2000/svg"
