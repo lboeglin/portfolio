@@ -1,0 +1,104 @@
+---
+import Layout from '@layouts/MainLayout.astro';
+import ProjectCard from '@components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '@i18n/utils';
+import { type Lang, defaultLang } from '@i18n/ui';
+
+const currentLang = (Astro.currentLocale || defaultLang) as Lang;
+const t = useTranslations(currentLang);
+
+const allProjects = await getCollection('projects');
+
+const filteredProjects = allProjects.filter((project) => {
+  return project.slug.startsWith(`${currentLang}/`);
+});
+
+const sortedProjects = filteredProjects.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
+);
+
+const title = t('nav.projects');
+---
+
+<Layout title={`${title} - Lohan Boëglin`}>
+  <section class="animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <h1 class="text-4xl font-bold mb-8">{title}</h1>
+
+    <div role="tablist" class="tabs tabs-boxed mb-10 w-fit bg-base-200/50 p-1 gap-1">
+      <button
+        role="tab"
+        class="tab tab-active transition-all duration-300 data-[active=true]:bg-primary data-[active=true]:text-primary-content rounded-lg"
+        onclick="filterProjects('all', this)"
+      >
+        {t('projects.filter.all')}
+      </button>
+      <button
+        role="tab"
+        class="tab transition-all duration-300 data-[active=true]:bg-primary data-[active=true]:text-primary-content rounded-lg"
+        onclick="filterProjects('personal', this)"
+      >
+        {t('projects.filter.personal')}
+      </button>
+      <button
+        role="tab"
+        class="tab transition-all duration-300 data-[active=true]:bg-primary data-[active=true]:text-primary-content rounded-lg"
+        onclick="filterProjects('academic', this)"
+      >
+        {t('projects.filter.academic')}
+      </button>
+    </div>
+
+    <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {
+        sortedProjects.map((project) => (
+          <div class="project-item" data-category={project.data.category}>
+            <ProjectCard project={project} />
+          </div>
+        ))
+      }
+    </div>
+
+    <div id="no-projects" class="hidden py-20 text-center opacity-50">
+      <p class="text-xl">{t('projects.empty')}</p>
+    </div>
+  </section>
+</Layout>
+
+<script is:inline>
+  function filterProjects(category, btn) {
+    document.querySelectorAll('[role="tab"]').forEach((el) => {
+      el.classList.remove('tab-active', 'bg-primary', 'text-primary-content');
+      el.removeAttribute('data-active');
+    });
+    btn.classList.add('tab-active', 'bg-primary', 'text-primary-content');
+    btn.setAttribute('data-active', 'true');
+
+    const items = document.querySelectorAll('.project-item');
+    let visibleCount = 0;
+
+    items.forEach((item) => {
+      const itemCategory = item.getAttribute('data-category');
+      if (category === 'all' || itemCategory === category) {
+        item.style.display = 'block';
+        item.animate(
+          [
+            { opacity: 0, transform: 'scale(0.95)' },
+            { opacity: 1, transform: 'scale(1)' },
+          ],
+          { duration: 300, easing: 'ease-out' }
+        );
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+
+    const emptyState = document.getElementById('no-projects');
+    if (visibleCount === 0) {
+      emptyState.classList.remove('hidden');
+    } else {
+      emptyState.classList.add('hidden');
+    }
+  }
+</script>
