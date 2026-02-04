@@ -9,6 +9,8 @@ const { experiences } = Astro.props as {
 
 const currentLang = (Astro.currentLocale || defaultLang) as Lang;
 
+const base = import.meta.env.BASE_URL;
+
 const t = useTranslations(currentLang);
 
 function formatDate(dateStr?: string) {
@@ -107,7 +109,7 @@ function formatDate(dateStr?: string) {
                 {exp.data.report && (
                   <a
                     class="animated-link flex items-center gap-1 opacity-80 hover:opacity-100 hover:text-primary transition-colors"
-                    href={exp.data.report}
+                    href={`${base}/${exp.data.report}`}
                     target="_blank"
                   >
                     <svg

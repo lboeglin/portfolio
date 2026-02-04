@@ -13,7 +13,7 @@ stack:
   - DLL interop
   - Visualisation 3D Nuage de Points
   - LiDAR
-report: '/reports/internship-report.pdf'
+report: '/Lohan_Boeglin_Rapport_Kadran.pdf'
 highlights:
   - Évaluation de la faisabilité d’un visualiseur 3D de nuages de points LiDAR avec Unreal Engine
   - Réalisation d’un prototype fonctionnel permettant le chargement, l’affichage et l’interaction avec des nuages de points en temps réel

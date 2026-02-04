@@ -13,7 +13,7 @@ stack:
   - DLL interop
   - 3D Point Cloud Visualization
   - LiDAR
-report: '/reports/internship-report.pdf'
+report: '/Lohan_Boeglin_Rapport_Kadran.pdf'
 highlights:
   - Evaluated feasibility of a 3D LiDAR point cloud viewer using Unreal Engine
   - Developed a functional prototype for loading, displaying, and interacting with point clouds in real time

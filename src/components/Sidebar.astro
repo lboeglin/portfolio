@@ -9,7 +9,6 @@ const currentLang = (Astro.currentLocale || defaultLang) as Lang;
 const t = useTranslations(currentLang);
 
 const name = 'Lohan Boëglin';
-const { specialization } = Astro.props;
 
 function localizedUrl(path: string) {
   return getRelativeLocaleUrl(currentLang, path);
