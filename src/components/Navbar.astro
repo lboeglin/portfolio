@@ -96,11 +96,17 @@ const switchUrl = getRelativeLocaleUrl(targetLang, slug);
 <script is:inline>
   function handleToggleClick() {
     const element = document.documentElement;
+
+    element.classList.add('theme-changing');
+
     const currentTheme = element.getAttribute('data-theme');
     const newTheme = currentTheme === 'coffee' ? 'light' : 'coffee';
-
     element.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+
+    setTimeout(() => {
+      element.classList.remove('theme-changing');
+    }, 50);
   }
 
   document.addEventListener('astro:page-load', () => {

@@ -74,8 +74,7 @@ function formatDate(dateStr?: string) {
             <div class="flex flex-wrap gap-2 pt-2">
               {exp.data.stack.map((tech: string, index: number) => (
                 <span class="badge-wrapper opacity-0" style={`--i: ${index}`}>
-                  <span class="badge badge-outline badge-sm cursor-default hover:badge-primary hover:scale-110 hover:shadow-md">
-                    {' '}
+                  <span class="badge badge-outline badge-sm cursor-default transition-all duration-300 hover:badge-primary hover:scale-110 hover:shadow-md">
                     {tech}
                   </span>
                 </span>

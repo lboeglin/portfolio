@@ -59,7 +59,7 @@ const projectUrl = getRelativeLocaleUrl(currentLang, `projects/${cleanSlug}`);
     }
 
     {/* Overlay Category Badge */}
-    <div class="absolute top-3 right-3">
+    <div class="absolute top-3 right-3 z-20" transition:name={`badge-${project.slug}`}>
       <span
         class="badge badge-sm backdrop-blur-md bg-base-100/80 border-0 shadow-sm capitalize font-bold"
       >
