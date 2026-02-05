@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { useTranslations } from '../i18n/utils';
 import { type Lang, defaultLang } from '@i18n/ui';
+import SoftBadge from './SoftBadge.astro';
 
 const { experiences } = Astro.props as {
   experiences: CollectionEntry<'experiences'>[];
@@ -71,13 +72,9 @@ function formatDate(dateStr?: string) {
               <div class="prose max-w-none">{exp.body}</div>
             )}
 
-            <div class="flex flex-wrap gap-2 pt-2">
-              {exp.data.stack.map((tech: string, index: number) => (
-                <span class="badge-wrapper opacity-0" style={`--i: ${index}`}>
-                  <span class="badge badge-outline badge-sm cursor-default transition-all duration-300 hover:badge-primary hover:scale-110 hover:shadow-md">
-                    {tech}
-                  </span>
-                </span>
+            <div class="flex flex-wrap gap-2 pt-3">
+              {exp.data.stack.map((tech: string) => (
+                <SoftBadge name={tech} />
               ))}
             </div>
 
