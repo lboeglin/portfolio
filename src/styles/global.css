@@ -44,7 +44,7 @@
 
   /* --- Animated Link (Underline Effect) --- */
   .animated-link {
-    @apply relative inline-flex pb-0.5 no-underline;
+    @apply relative inline-flex pb-0.5 no-underline duration-300 transition-colors;
   }
 
   .animated-link::after {

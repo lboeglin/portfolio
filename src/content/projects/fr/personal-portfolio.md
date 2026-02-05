@@ -6,7 +6,7 @@ tags: ['Astro', 'TypeScript', 'TailwindCSS', 'DaisyUI']
 category: 'personal'
 github: '[https://github.com/lboeglin/portfolio](https://github.com/lboeglin/portfolio)'
 demo: '[https://lohan-boeglin.com](https://lohan-boeglin.com)'
-image: 'https://placehold.co/1200x720'
+image: 'https://placehold.co/1280x720/1d232a/7480ff?text=Portfolio+V2'
 ---
 
 ## Vue d'ensemble
