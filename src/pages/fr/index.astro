@@ -2,100 +2,137 @@
 import MainLayout from '@layouts/MainLayout.astro';
 import Hero from '@components/Hero.astro';
 import ExperienceTimeline from '@components/ExperienceTimeline.astro';
+import ProjectCard from '@components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
+import { useTranslations } from '@i18n/utils';
+import { type Lang, defaultLang } from '@i18n/ui';
 
-const lang = Astro.currentLocale;
+const lang = (Astro.currentLocale || defaultLang) as Lang;
+const t = useTranslations(lang);
 
-// 1. Fetch all projects inside the 'fr' folder
-const allProjects = await getCollection('projects', ({ id }) => {
-  return id.startsWith(`${lang}/`);
-});
-
-const experiences = await getCollection('experiences', ({ id }) => id.startsWith(`${lang}/`));
-
-const sortedExperiences = experiences.sort(
-  (a, b) => new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime()
-);
-
-// 2. Sort by Date
+// 1. Fetch & Sort
+const allProjects = await getCollection('projects', ({ id }) => id.startsWith(`${lang}/`));
 const sortedProjects = allProjects.sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
 );
 
-// 3. Group by Category
-const academic = sortedProjects.filter((p) => p.data.category === 'academic');
-const personal = sortedProjects.filter((p) => p.data.category === 'personal');
+// 2. Filter & Limit
+// Personal: Show top 2 (Big Cards)
+const personal = sortedProjects.filter((p) => p.data.category === 'personal').slice(0, 2);
+
+// Academic: Show top 4 (Small Cards)
+const academic = sortedProjects.filter((p) => p.data.category === 'academic').slice(0, 4);
+
+const experiences = await getCollection('experiences', ({ id }) => id.startsWith(`${lang}/`));
+const sortedExperiences = experiences.sort(
+  (a, b) => new Date(b.data.startDate).getTime() - new Date(a.data.startDate).getTime()
+);
 ---
 
 <MainLayout lang={lang}>
   <Hero lang={lang} />
 
-  <div class="flex flex-col gap-16">
+  <div class="flex flex-col gap-24 py-12">
+    {/* 1. EXPERIENCE SECTION */}
     <ExperienceTimeline experiences={sortedExperiences} />
 
-    <section id="academic">
-      <h2 class="text-3xl font-bold mb-8 border-b border-base-300 pb-2 flex items-center gap-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-8 w-8"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          ><path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-          ></path></svg
-        >
-        Projets Académiques
-      </h2>
+    {/* 2. PERSONAL PROJECTS (Visual Showcase) */}
+    {
+      personal.length > 0 && (
+        <section id="personal-projects" class="animate-in fade-in duration-700 delay-300">
+          <div class="flex items-center justify-between mb-8 border-b border-base-300 pb-4">
+            <h2 class="text-3xl font-bold flex items-center gap-3">
+              <span class="text-primary">✦</span>
+              {t('projects.filter.personal')}
+            </h2>
+            <a href={`/Portfolio/${lang}/projects`} class="btn btn-ghost btn-sm group">
+              {t('nav.projects')}
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </a>
+          </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {
-          academic.map((project) => (
-            <article class="card bg-base-100 shadow-xl border border-base-300 hover:border-primary duration-300">
-              <div class="card-body">
-                <div class="flex justify-between items-start">
-                  <h3 class="card-title text-xl font-bold">{project.data.title}</h3>
-                  {project.data.github && (
-                    <a
-                      href={project.data.github}
-                      target="_blank"
-                      class="btn btn-circle btn-ghost btn-sm"
-                      title="Voir le code"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                      </svg>
-                    </a>
-                  )}
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {personal.map((project) => (
+              /* Reuse the big component for maximum impact */
+              <div class="h-full">
+                <ProjectCard project={project} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {/* 3. ACADEMIC PROJECTS (Compact / Information Dense) */}
+    {
+      academic.length > 0 && (
+        <section id="academic-projects" class="animate-in fade-in duration-700 delay-500">
+          <h2 class="text-2xl font-bold mb-8 border-b border-base-300 pb-4 flex items-center gap-3 opacity-90">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+              />
+            </svg>
+            {t('projects.filter.academic')}
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {academic.map((project) => (
+              /* COMPACT CARD: Inline styles for a cleaner, list-like look */
+              <a
+                href={`/Portfolio/${lang}/projects/${project.slug.split('/').pop()}`}
+                class="group block p-6 bg-base-100 border border-base-300 rounded-xl hover:border-primary/50 hover:shadow-md transition-all duration-300"
+              >
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="font-bold text-lg group-hover:text-primary transition-colors">
+                    {project.data.title}
+                  </h3>
+                  {/* Arrow Icon that appears on hover */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
                 </div>
 
-                <p class="text-base-content/80 mt-2">{project.data.description}</p>
+                <p class="text-sm opacity-70 mb-4 line-clamp-2">{project.data.description}</p>
 
-                <div class="flex flex-wrap gap-2 mt-4">
-                  {project.data.tags.map((tag) => (
-                    <span class="badge badge-outline badge-sm">{tag}</span>
+                <div class="flex flex-wrap gap-2">
+                  {project.data.tags.slice(0, 3).map((tag) => (
+                    <span class="text-xs border border-base-300 px-2 py-1 rounded-md opacity-60">
+                      {tag}
+                    </span>
                   ))}
                 </div>
+              </a>
+            ))}
+          </div>
 
-                <div class="divider my-2" />
-
-                <div class="prose prose-sm max-w-none">
-                  <p class="text-sm italic opacity-70">{project.body.substring(0, 100)}...</p>
-                </div>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </section>
+          {/* "See All" Button at the bottom */}
+          <div class="mt-8 text-center">
+            <a href={`/Portfolio/${lang}/projects`} class="btn btn-outline btn-wide">
+              {t('projects.view_all')}
+            </a>
+          </div>
+        </section>
+      )
+    }
   </div>
 </MainLayout>
