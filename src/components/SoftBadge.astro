@@ -1,66 +1,70 @@
 ---
 interface Props {
   name: string;
-  class?: string; // Allow extra classes (like 'badge-lg')
+  class?: string;
 }
 
 const { name, class: className } = Astro.props;
 
-// 1. DATABASE: Map tech names to Colors and Icons
-// Add more technologies here as you need them.
 const techMap: Record<string, { color: string; icon: string }> = {
-  // Frontend
-  react: { color: 'blue', icon: 'devicon-react-original' },
-  astro: { color: 'orange', icon: 'devicon-astro-plain' },
-  tailwind: { color: 'cyan', icon: 'devicon-tailwindcss-original' },
+  // --- LANGUAGES ---
+  'c++': { color: 'blue', icon: 'devicon-cplusplus-plain' },
+  'c#': { color: 'purple', icon: 'devicon-csharp-plain' },
   typescript: { color: 'blue', icon: 'devicon-typescript-plain' },
   javascript: { color: 'yellow', icon: 'devicon-javascript-plain' },
+  python: { color: 'yellow', icon: 'devicon-python-plain' },
+
+  // --- FRAMEWORKS & ENGINES ---
+  'unreal engine': { color: 'gray', icon: 'devicon-unrealengine-original' },
+  angular: { color: 'red', icon: 'devicon-angularjs-plain' },
+  '.net': { color: 'purple', icon: 'devicon-dotnetcore-plain' },
+  'entity framework': { color: 'purple', icon: 'devicon-dotnetcore-plain' },
+  react: { color: 'blue', icon: 'devicon-react-original' },
+  astro: { color: 'orange', icon: 'devicon-astro-plain' },
+
+  // --- WEB & STYLES ---
   html: { color: 'orange', icon: 'devicon-html5-plain' },
   css: { color: 'blue', icon: 'devicon-css3-plain' },
+  scss: { color: 'pink', icon: 'devicon-sass-original' },
+  tailwind: { color: 'cyan', icon: 'devicon-tailwindcss-original' },
 
-  // Backend
-  node: { color: 'green', icon: 'devicon-nodejs-plain' },
-  'node.js': { color: 'green', icon: 'devicon-nodejs-plain' },
-  python: { color: 'yellow', icon: 'devicon-python-plain' },
-  php: { color: 'purple', icon: 'devicon-php-plain' },
-  java: { color: 'red', icon: 'devicon-java-plain' },
-  go: { color: 'cyan', icon: 'devicon-go-plain-wordmark' },
-
-  // Database
+  // --- DATA & CLOUD ---
+  'microsoft sql': { color: 'red', icon: 'devicon-microsoftsqlserver-plain' },
   postgresql: { color: 'blue', icon: 'devicon-postgresql-plain' },
-  mysql: { color: 'blue', icon: 'devicon-mysql-plain' },
-  mongodb: { color: 'green', icon: 'devicon-mongodb-plain' },
   supabase: { color: 'emerald', icon: 'devicon-supabase-plain' },
 
-  // Tools
+  // --- CONCEPTS & SPECIALTIES (No Icons, just Colors) ---
+  'dll interop': { color: 'gray', icon: 'devicon-windows8-original' },
+  '3d point cloud visualization': { color: 'cyan', icon: '' },
+  'visualisation 3d nuage de points': { color: 'cyan', icon: '' },
+  lidar: { color: 'red', icon: '' },
+  scrum: { color: 'orange', icon: '' },
+
+  // --- TOOLS ---
   git: { color: 'red', icon: 'devicon-git-plain' },
   docker: { color: 'blue', icon: 'devicon-docker-plain' },
-  linux: { color: 'gray', icon: 'devicon-linux-plain' },
-  figma: { color: 'purple', icon: 'devicon-figma-plain' },
 };
 
-// 2. Normalize input to find match
 const key = name.toLowerCase();
-const config = techMap[key] || { color: 'gray', icon: '' }; // Fallback
+const matchedKey = Object.keys(techMap).find((k) => key.includes(k)) || '';
+const config = techMap[key] || techMap[matchedKey] || { color: 'gray', icon: '' };
 
-// 3. COLOR STYLES (Soft Badge Look)
-// Light Mode: bg-100 text-800 border-200
-// Dark Mode: bg-900/30 text-300 border-800
 const colorStyles: Record<string, string> = {
-  blue: 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800 hover:bg-blue-200 dark:hover:bg-blue-900/50',
-  cyan: 'bg-cyan-100 text-cyan-800 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-800 hover:bg-cyan-200 dark:hover:bg-cyan-900/50',
+  blue: 'bg-blue-100 text-blue-800 dark:bg-blue-500/15 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/25',
+  cyan: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-500/15 dark:text-cyan-300 hover:bg-cyan-200 dark:hover:bg-cyan-500/25',
   green:
-    'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800 hover:bg-green-200 dark:hover:bg-green-900/50',
+    'bg-green-100 text-green-800 dark:bg-green-500/15 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-500/25',
   emerald:
-    'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:border-emerald-800 hover:bg-emerald-200 dark:hover:bg-emerald-900/50',
+    'bg-emerald-100 text-emerald-800 dark:bg-emerald-500/15 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/25',
   yellow:
-    'bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-800 hover:bg-yellow-200 dark:hover:bg-yellow-900/50',
-  red: 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800 hover:bg-red-200 dark:hover:bg-red-900/50',
+    'bg-yellow-100 text-yellow-800 dark:bg-yellow-500/15 dark:text-yellow-300 hover:bg-yellow-200 dark:hover:bg-yellow-500/25',
+  red: 'bg-red-100 text-red-800 dark:bg-red-500/15 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-500/25',
   purple:
-    'bg-purple-100 text-purple-800 border-purple-200 dark:bg-purple-900/30 dark:text-purple-300 dark:border-purple-800 hover:bg-purple-200 dark:hover:bg-purple-900/50',
+    'bg-purple-100 text-purple-800 dark:bg-purple-500/15 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-500/25',
+  pink: 'bg-pink-100 text-pink-800 dark:bg-pink-500/15 dark:text-pink-300 hover:bg-pink-200 dark:hover:bg-pink-500/25',
   orange:
-    'bg-orange-100 text-orange-800 border-orange-200 dark:bg-orange-900/30 dark:text-orange-300 dark:border-orange-800 hover:bg-orange-200 dark:hover:bg-orange-900/50',
-  gray: 'bg-base-200 text-base-content border-base-300 hover:bg-base-300',
+    'bg-orange-100 text-orange-800 dark:bg-orange-500/15 dark:text-orange-300 hover:bg-orange-200 dark:hover:bg-orange-500/25',
+  gray: 'bg-base-200 text-base-content/80 dark:bg-base-contentdark:text-base-content hover:bg-base-300 dark:hover:bg-base-content/20',
 };
 
 const activeStyle = colorStyles[config.color] || colorStyles.gray;
@@ -68,13 +72,10 @@ const activeStyle = colorStyles[config.color] || colorStyles.gray;
 
 <span
   class:list={[
-    'badge badge-outline gap-2 h-auto py-1.5 px-3 border transition-colors duration-300 cursor-default select-none',
+    'badge gap-2 h-auto py-1.5 px-3 border-0 font-medium transition-colors duration-300 cursor-default select-none',
     activeStyle,
     className,
   ]}
 >
-  {/* Render Icon if found */}
-  {config.icon && <i class={`${config.icon} text-sm`} />}
-
   <span class="font-medium text-xs tracking-wide">{name}</span>
 </span>
