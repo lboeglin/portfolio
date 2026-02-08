@@ -55,7 +55,7 @@ const sortedExperiences = experiences.sort(
             {personal.map((project) => (
               /* Reuse the big component for maximum impact */
               <div class="h-full">
-                <ProjectCard project={project} loading="lazy" />
+                <ProjectCard project={project} loading="lazy" showCategory={false} />
               </div>
             ))}
           </div>
