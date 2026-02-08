@@ -6,8 +6,6 @@ interface Props {
 
 const { name, class: className } = Astro.props;
 
-// ... [Your techMap remains exactly the same] ...
-// 1. DATABASE: Map tech names to Colors
 const techMap: Record<string, string> = {
   'c++': 'blue',
   'c#': 'purple',
@@ -38,48 +36,13 @@ const techMap: Record<string, string> = {
   figma: 'purple',
 };
 
-// 2. Normalize input
 const key = name.toLowerCase();
 const matchedKey = Object.keys(techMap).find((k) => key.includes(k)) || '';
 const color = techMap[key] || techMap[matchedKey] || 'gray';
 
-const caramel = "[html[data-theme='caramellatte']_&]";
-
-const colorStyles: Record<string, string> = {
-  blue: `bg-blue-100 text-slate-900 ${caramel}:bg-blue-200 ${caramel}:text-black dark:bg-blue-500/15 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-500/25`,
-
-  cyan: `bg-cyan-100 text-slate-900 ${caramel}:bg-cyan-200 ${caramel}:text-black dark:bg-cyan-500/15 dark:text-cyan-300 hover:bg-cyan-200 dark:hover:bg-cyan-500/25`,
-
-  green: `bg-green-100 text-slate-900 ${caramel}:bg-green-200 ${caramel}:text-black dark:bg-green-500/15 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-500/25`,
-
-  emerald: `bg-emerald-100 text-slate-900 ${caramel}:bg-emerald-200 ${caramel}:text-black dark:bg-emerald-500/15 dark:text-emerald-300 hover:bg-emerald-200 dark:hover:bg-emerald-500/25`,
-
-  yellow: `bg-yellow-100 text-slate-900 ${caramel}:bg-yellow-200 ${caramel}:text-black dark:bg-yellow-500/20 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-500/30`,
-
-  red: `bg-red-100 text-slate-900 ${caramel}:bg-red-200 ${caramel}:text-black dark:bg-red-500/15 dark:text-red-300 hover:bg-red-200 dark:hover:bg-red-500/25`,
-
-  purple: `bg-purple-100 text-slate-900 ${caramel}:bg-purple-200 ${caramel}:text-black dark:bg-purple-500/15 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-500/25`,
-
-  pink: `bg-pink-100 text-slate-900 ${caramel}:bg-pink-200 ${caramel}:text-black dark:bg-pink-500/15 dark:text-pink-300 hover:bg-pink-200 dark:hover:bg-pink-500/25`,
-
-  orange: `bg-orange-100 text-slate-900 ${caramel}:bg-orange-200 ${caramel}:text-black dark:bg-orange-500/15 dark:text-orange-300 hover:bg-orange-200 dark:hover:bg-orange-500/25`,
-
-  gray: `bg-base-200 text-base-content ${caramel}:bg-base-300 ${caramel}:text-black dark:bg-base-content/10 dark:text-base-content/80 hover:bg-base-300 dark:hover:bg-base-content/20`,
-};
-
-const activeStyle = colorStyles[color];
+const badgeColorClass = `badge-tech-${color}`;
 ---
 
-<span
-  class:list={[
-    'badge h-auto py-1.5 px-3 border-0 font-semibold tracking-wide shadow-sm transition-all duration-200 select-none',
-
-    activeStyle,
-
-    className,
-
-    "[html[data-theme='caramellatte']_&]:text-black",
-  ]}
->
+<span class:list={['badge-tech', badgeColorClass, className]}>
   <span class="text-xs">{name}</span>
 </span>
