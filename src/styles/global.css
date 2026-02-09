@@ -219,3 +219,13 @@ html.theme-changing *::after {
   transition: none !important;
   animation-duration: 0s !important;
 }
+
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *:before,
+html.theme-transition *:after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow !important;
+  transition-duration: 0.4s !important;
+  transition-timing-function: ease-out !important;
+  transition-delay: 0s !important;
+}
