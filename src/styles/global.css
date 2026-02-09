@@ -229,3 +229,7 @@ html.theme-transition *:after {
   transition-timing-function: ease-out !important;
   transition-delay: 0s !important;
 }
+
+aside.drawer-side a {
+  transition: none !important;
+}
