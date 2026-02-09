@@ -6,6 +6,7 @@ import ProjectCard from '@components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 import { useTranslations } from '@i18n/utils';
 import { type Lang, defaultLang } from '@i18n/ui';
+import SoftBadge from '@components/SoftBadge.astro';
 
 const lang = (Astro.currentLocale || defaultLang) as Lang;
 const t = useTranslations(lang);
@@ -105,7 +106,7 @@ const sortedExperiences = experiences.sort(
     {
       academic.length > 0 && (
         <section id="academic-projects" class="animate-in fade-in duration-700 delay-500">
-          <h2 class="text-2xl font-bold mb-8 border-b pb-4 flex items-center gap-3 opacity-90">
+          <h2 class="text-2xl font-bold mb-8 border-b border-base-300 pb-4 flex items-center gap-3 opacity-90">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -125,7 +126,6 @@ const sortedExperiences = experiences.sort(
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             {academic.map((project) => (
-              /* COMPACT CARD: Inline styles for a cleaner, list-like look */
               <a
                 href={`/Portfolio/${lang}/projects/${project.slug.split('/').pop()}`}
                 class="group block p-6 bg-base-100 border border-base-300 rounded-xl hover:border-primary/50 hover:shadow-md transition-all duration-300"
@@ -134,7 +134,6 @@ const sortedExperiences = experiences.sort(
                   <h3 class="font-bold text-lg group-hover:text-primary transition-colors">
                     {project.data.title}
                   </h3>
-                  {/* Arrow Icon that appears on hover */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary"
@@ -154,16 +153,18 @@ const sortedExperiences = experiences.sort(
 
                 <div class="flex flex-wrap gap-2">
                   {project.data.tags.slice(0, 3).map((tag) => (
-                    <span class="text-xs border border-base-300 px-2 py-1 rounded-md opacity-60">
-                      {tag}
-                    </span>
+                    <SoftBadge name={tag} class="py-1! px-2! text-[10px]" />
                   ))}
+                  {project.data.tags.length > 3 && (
+                    <span class="text-[12px] opacity-50 flex items-center">
+                      +{project.data.tags.length - 3}
+                    </span>
+                  )}
                 </div>
               </a>
             ))}
           </div>
 
-          {/* "See All" Button at the bottom */}
           <div class="mt-8 text-center">
             <a href={`/Portfolio/${lang}/projects`} class="btn btn-outline btn-wide">
               {t('projects.view_all')}
