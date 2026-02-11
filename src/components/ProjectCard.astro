@@ -18,6 +18,10 @@ const t = useTranslations(currentLang);
 
 const cleanSlug = project.slug.replace(/^[a-z]{2}\//, '');
 const projectUrl = getRelativeLocaleUrl(currentLang, `projects/${cleanSlug}`);
+const isTeam = project.data.teamSize > 1;
+
+const commonBadgeClass =
+  'badge badge-sm backdrop-blur-md bg-base-100/90 border-0 shadow-sm font-bold h-6 text-base-content';
 ---
 
 <a
@@ -58,16 +62,47 @@ const projectUrl = getRelativeLocaleUrl(currentLang, `projects/${cleanSlug}`);
       )
     }
 
-    {/* Conditional Rendering based on prop */}
-    {
-      showCategory && (
-        <div class="absolute top-3 right-3 z-20" transition:name={`badge-${project.slug}`}>
-          <span class="badge badge-sm backdrop-blur-md bg-base-100/80 border-0 shadow-sm capitalize font-bold">
+    <div
+      class="absolute top-3 right-3 z-20 flex gap-2"
+      transition:name={`badges-card-${project.slug}`}
+    >
+      {
+        isTeam && (
+          <div
+            class={`${commonBadgeClass} flex gap-1 items-center`}
+            title={`${project.data.teamSize} Contributors`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+
+            <span class="text-xs">{project.data.teamSize}</span>
+          </div>
+        )
+      }
+
+      {/* 2. Category Badge */}
+      {
+        showCategory && (
+          <span class={`${commonBadgeClass} capitalize`}>
             {t(`projects.filter.${project.data.category}` as any)}
           </span>
-        </div>
-      )
-    }
+        )
+      }
+    </div>
   </div>
 
   <div class="p-5 flex flex-col gap-3">

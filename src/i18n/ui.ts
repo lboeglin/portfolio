@@ -39,6 +39,9 @@ export const ui = {
     'projects.demo': 'Démo Live',
     'projects.github': 'Code Source',
     'projects.loadMore': 'Charger plus',
+    'projects.team': 'Équipe',
+    'projects.people': 'personnes',
+    'projects.solo': 'Solo',
   },
   en: {
     'nav.home': 'Home',
@@ -73,6 +76,9 @@ export const ui = {
     'projects.demo': 'Live Demo',
     'projects.github': 'Source Code',
     'projects.loadMore': 'Load more',
+    'projects.team': 'Team',
+    'projects.people': 'contributors',
+    'projects.solo': 'Solo',
   },
 } as const;
 

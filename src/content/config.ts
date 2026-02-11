@@ -13,6 +13,7 @@ const projects = defineCollection({
       demo: z.string().optional(),
       image: image().optional(),
       featured: z.boolean().default(false),
+      teamSize: z.number().default(1),
     }),
 });
 

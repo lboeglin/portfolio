@@ -6,6 +6,7 @@ tags: ['React', 'Node.js', 'Docker', 'MQTT', 'InfluxDB']
 category: 'academic'
 github: 'https://github.com/lboeglin/iot-dashboard'
 demo: 'https://iot-demo.lboeglin.dev'
+teamSize: 10
 ---
 
 ### Contexte
