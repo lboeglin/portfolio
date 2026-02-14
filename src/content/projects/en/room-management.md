@@ -14,7 +14,7 @@ github: 'https://github.com/lboeglin/Lycaon'
 
 This academic project focused on building a modular **Room Management System** using a **Microservices Architecture**. The goal was to separate concerns into distinct services while orchestrating them through a **Backend For Frontend (BFF)** layer.
 
-The project was developed in a pair with **Samuel Amaral Antunes** and **Lohan Boëglin**.
+The project was developed in a pair with **Samuel Amaral Antunes**.
 
 ## Architecture
 

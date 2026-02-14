@@ -14,7 +14,7 @@ github: 'https://github.com/lboeglin/Lycaon'
 
 Ce projet académique consistait à construire un **Système de Gestion de Salles** modulaire utilisant une **Architecture Microservices**. L'objectif était de séparer les responsabilités en services distincts tout en les orchestrant via une couche **Backend For Frontend (BFF)**.
 
-Le projet a été réalisé en binôme avec **Samuel Amaral Antunes** et **Lohan Boëglin**.
+Le projet a été réalisé en binôme avec **Samuel Amaral Antunes**.
 
 ## Architecture
 
