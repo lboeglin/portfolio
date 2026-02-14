@@ -46,10 +46,10 @@ Le point d'entrée pour le frontend.
 - **Agrégation :** Synthétise les données de plusieurs microservices en objets de réponse uniques (Data Classes). Par exemple, récupérer un utilisateur agrège automatiquement son historique détaillé de réservations.
 - **Injection de Header :** Impose le passage strict des headers (`X-User`) aux services en aval.
 
-## Stack Technique
+## Stratégie de Tests
 
-- **Langage :** Kotlin
-- **Framework :** Spring Boot 3
-- **Communication :** REST, WebClient
-- **Base de Données :** H2 (In-memory), HashMaps
-- **Tests :** Bruno (Collections API), JUnit
+Pour garantir la robustesse de l'architecture distribuée, une couverture de tests complète a été implémentée sur **chacun des trois services** :
+
+- **Tests Unitaires (JUnit) :** Validation isolée de la logique métier et des règles de gestion (ex: chevauchement des horaires).
+- **Tests d'Intégration (`@SpringBootTest`) :** Vérification du chargement du contexte Spring et du bon fonctionnement des chaînes de dépendances.
+- **Validation d'API :** Utilisation de collections **Bruno** pour certifier le respect des contrats d'interface (inputs/outputs) attendus par le sujet.

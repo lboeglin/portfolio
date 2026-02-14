@@ -14,7 +14,7 @@ github: 'https://github.com/lboeglin/Lycaon'
 
 This academic project focused on building a modular **Room Management System** using a **Microservices Architecture**. The goal was to separate concerns into distinct services while orchestrating them through a **Backend For Frontend (BFF)** layer.
 
-The project was developed in a pair (Trinôme/Binôme) with **Samuel Amaral Antunes** and **Lohan Boëglin**.
+The project was developed in a pair with **Samuel Amaral Antunes** and **Lohan Boëglin**.
 
 ## Architecture
 
@@ -46,10 +46,10 @@ The entry point for the frontend.
 - **Aggregation:** Synthesizes data from multiple microservices into single response objects (Data Classes). For example, fetching a User automatically aggregates their detailed reservation history.
 - **Header Injection:** Enforces strict header passing (`X-User`) to downstream services.
 
-## Technical Stack
+## Testing Strategy
 
-- **Language:** Kotlin
-- **Framework:** Spring Boot 3
-- **Communication:** REST, WebClient
-- **Database:** H2 (In-memory), HashMaps
-- **Testing:** Bruno (API Collections), JUnit
+To ensure the robustness of the distributed architecture, comprehensive test coverage was implemented across **each of the three services**:
+
+- **Unit Tests (JUnit):** Isolated validation of business logic and management rules (e.g., schedule overlaps).
+- **Integration Tests (`@SpringBootTest`):** Verification of Spring context loading and dependency injection chains.
+- **API Validation:** Use of **Bruno** collections to certify compliance with the expected interface contracts (inputs/outputs).
