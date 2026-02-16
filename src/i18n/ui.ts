@@ -42,6 +42,7 @@ export const ui = {
     'projects.team': 'Équipe',
     'projects.people': 'personnes',
     'projects.solo': 'Solo',
+    'projects.date': 'Date',
   },
   en: {
     'nav.home': 'Home',
@@ -79,6 +80,7 @@ export const ui = {
     'projects.team': 'Team',
     'projects.people': 'contributors',
     'projects.solo': 'Solo',
+    'projects.date': 'Timeline',
   },
 } as const;
 
